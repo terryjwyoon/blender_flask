@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Simple Game</title>
+        <!-- Flask -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>  
+        <script>
+            function create () {
+                $.ajax({
+                    type: "POST",
+                    url:"/TY_test1",
+                    dataType: 'json',
+                    data: {registration: "success", name: "xyz", email: "abc@gmail.com"},
+                    success:function(result){
+                        // console.log(result.abc);
+                        alert(result.abc);
+                    }
+                });
+            } 
+        </script>
+    </head>
+    <body>
+        <input type="button" value="TEST" onclick="create()"/>
+        <!-- Three.js -->
+        <script src="{{ url_for('static', filename='lib/three.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='lib/fflate.min.js')}}"></script><!-- Comp/Decompression library, needed to use FBXLoader-->
+        <script src="{{ url_for('static', filename='lib/FBXLoader.js')}}"></script><!-- Library needed to load FBX files -->
+        <script src="{{ url_for('static', filename='lib/OrbitControls.js')}}"></script><!-- Library to control orbit(ex. camera, characters) -->
+        <script src="{{ url_for('static', filename='game.js') }}"></script>
+        <script>
+            // Load game.js when this document is loaded on a browser
+            document.addEventListener("DOMContentLoaded", function(){
+                const game = new Game();
+                window.game = game;
+            });
+        </script>
+
+    </body>
+</html>
