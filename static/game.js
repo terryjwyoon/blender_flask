@@ -82,7 +82,7 @@ class Game{
         // const game = this;
 
         // mai 불러오기
-        fbxloader.load(`static/assets/mai_three.fbx`, function(object){
+        fbxloader.load(`static/assets/MaiAction.fbx`, function(object){
             
             // @TY: #25
             object.mixer = new THREE.AnimationMixer(object);  // animation player
