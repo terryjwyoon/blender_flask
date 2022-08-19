@@ -16,4 +16,5 @@ def TY_test1():
     return jsonify({'abc': 'registration unsuccessful'})
 
 if __name__ == '__main__':
+    # 127.0.0.1:9000
     app.run('0.0.0.0', port=9000, debug=True)
