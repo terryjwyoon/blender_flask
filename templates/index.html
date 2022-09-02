@@ -36,6 +36,13 @@
             });
         </script>
 
+        <!-- Character Selection Button -->
+        <select id="changePlayer" onchange="javascript:game.changePlayer()">
+            <option value="MaiAction">Select Character</option>
+            <option value="MaiAction">Mai</option>
+            <option value="RaccoonAction">Raccoon</option>
+        </select>
+
         <!-- Action Selection Button -->
         <select id="changeAction" onchange="javascript:game.changeAction()">
             <option selected value="Idle">IDLE</option>
