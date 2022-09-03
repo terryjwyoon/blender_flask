@@ -3,6 +3,7 @@ class Game{
     constructor(){
         this.scene;
         this.player = { };
+        this.selPlayer;  // #31
         this.renderer;
         this.camera;
         this.orbCtrl;
@@ -17,7 +18,6 @@ class Game{
         this.animations = {};
 
         const game = this;  // 자기자신을 game에 넣어둠
-        this.aniInit();
     }
     
     aniInit(){
@@ -26,7 +26,7 @@ class Game{
         this.scene.background = new THREE.Color("#D5D5D5");  // #26: 배경 색상
 
         // PerspectiveCamera(화각, 화면비율, near(얼마나 가까이서 렌더링), far(카메라에서 볼수있는 최대거리))
-        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 3000)
+        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 50000)
         this.renderer = new THREE.WebGLRenderer();  // 색상이나 재질을 넣을 때 사용
         this.renderer.setSize(window.innerWidth, window.innerHeight);  // size of a canvas
         document.body.appendChild(this.renderer.domElement);  // index.html의 body부분에 추가, domElement(renderer를 화면에 그려주는 역할)
@@ -65,11 +65,11 @@ class Game{
         this.scene.add(mesh);
 
         // #26: 그리드 추가
-        var grid = new THREE.GridHelper(5000, 50, 0x000000, 0x000000);  // (그리드 사이즈, 분할될 그리드 수, 그리드 선색상, 그리드 색상)
-        grid.position.y = -30;  // 바닥과 같은 위치
-        grid.material.transparent = true;
-        grid.material.opacity = 0.3;
-        this.scene.add(grid);
+        // var grid = new THREE.GridHelper(5000, 50, 0x000000, 0x000000);  // (그리드 사이즈, 분할될 그리드 수, 그리드 선색상, 그리드 색상)
+        // grid.position.y = -30;  // 바닥과 같은 위치
+        // grid.material.transparent = true;
+        // grid.material.opacity = 0.3;
+        // this.scene.add(grid);
 
         // this.camera.position.z = 50;  // 카메라의 깊이값 조절, 객체가 가까이 혹은 멀리 보이도록 함(x, y, z 다 조절 가능), 작을수록 가깝게 보임
 
@@ -82,7 +82,7 @@ class Game{
         // const game = this;
 
         // mai 불러오기
-        fbxloader.load(`static/assets/MaiAction.fbx`, function(object){
+        fbxloader.load(`static/assets/${game.selPlayer}.fbx`, function(object){
             
             // @TY: #25
             object.mixer = new THREE.AnimationMixer(object);  // animation player
@@ -94,9 +94,18 @@ class Game{
             game.scene.add(object);
             object.position.y = -40;
             object.position.z = -50;
-            object.scale.x = 0.02;
-            object.scale.y = 0.02;
-            object.scale.z = 0.02;
+            
+            // #32 크기조정
+            if(game.selPlayer === "MaiAction"){
+                object.scale.x = 0.02;
+                object.scale.y = 0.02;
+                object.scale.z = 0.02;    
+            }
+            else{
+                object.scale.x = 30;
+                object.scale.y = 30;
+                object.scale.z = 30;    
+            }
             
             // #26: 그림자 실행
             object.traverse(function(child) {  // 객체의 모든 하위항목에 대한 콜백 실행
@@ -142,16 +151,6 @@ class Game{
             game.nextAni(fbxloader);
         });
 
-        fbxloader.load(`static/assets/snow_three.fbx`, function(object){
-            
-            game.scene.add(object);
-            object.position.y = -50;
-            object.position.z = -50;
-            object.scale.x = 0.01;
-            object.scale.y = 0.01;
-            object.scale.z = 0.01;
-        });
-
         // 만든 객체를 scene에 추가 (카메라는 scene을 비추는 것이기 때문에 추가X)
         this.scene.add(this.cube);
         this.scene.add(light);
@@ -171,11 +170,14 @@ class Game{
     nextAni(fbxLoader) {
         
         const game = this;
-        fbxLoader.load(`static/assets/MaiAction.fbx`, function( object ){
+        fbxLoader.load(`static/assets/${game.selPlayer}.fbx`, function( object ){
             
             // #27
             game.selAction = "Idle";
             game.Cameras();
+
+            // #28, #31
+            game.Colliders(fbxLoader);
             
             // #26: 게임스틱 추가
             game.GamePad = new GamePad({
@@ -205,14 +207,21 @@ class Game{
         game.selAction = document.getElementById("changeAction").value;
     }
 
+    // #32
+    changePlayer() {
+
+        game.selPlayer = document.getElementById("changePlayer").value;
+        this.aniInit();
+    }
     //=========================================================================
     //
     //=========================================================================
     animate() {
+        
         /* 애니메이션이 반복적으로 실행되도록 함 */
         const game = this;
         const dt = this.clock.getDelta();  // 경과된 시간을 초단위로 가져옴
-        requestAnimationFrame(function(){ game.animate(); });  // frame마다 반복적으로 시행
+        // requestAnimationFrame(function(){ game.animate(); });  // frame마다 반복적으로 시행
         
         // cube 회전
         this.cube.rotation.x += 0.01;
@@ -259,26 +268,325 @@ class Game{
             this.camera.lookAt(cameraPosition);
         }
 
+        // 상어 움직이기
+        const enemy = game.enemy;
+        for(let x=0; x<enemy.length; x++){
+
+            this.enemy[x].lookAt(this.player.object.position);  // 플레이어의 위치를 바라봄
+            this.enemy[x].rotateY(Math.PI / 2);  // 상어 앞부분이 플레이어를 바라보도록 회전
+            this.enemy[x].translateX(-5);  // 음수 -> 플레이어방향, 따라가기
+        }
+
         //---------------------------------------------------------------------
         //
         //---------------------------------------------------------------------
+        let live = this.rule();
+
+        if(live){
+
+            requestAnimationFrame(function(){ game.animate(); });  // frame마다 반복적으로 시행
+        }
+
         this.renderer.render(this.scene, this.camera);  // 실행된 내용을 렌더링해서 화면에 보여줌
     }
 
+    rule(){
+        
+        let live = true;
+        const position = this.player.object.position.clone();
+        
+        // raycaster -> 다른 객체와의 거리 감지
+        let raycast = new THREE.Raycaster(position);
+
+        const enemy = this.enemy;
+
+        if(enemy !== undefined){
+            const distance = raycast.intersectObjects(enemy);
+
+            if(distance.length > 0){
+                if(distance[0].distance < 200){
+                    alert("You've got caught by a Shark!");
+                    live = false;
+                    location.reload();  // 화면 다시 불러오기
+                }
+            }
+        }
+
+        const ship = this.ship;
+
+        if(ship !== undefined){
+            const distance = raycast.intersectObjects(ship);
+
+            if(distance.length > 0){
+                if(distance[0].distance < 200){
+                    alert("You've successfully escaped!");
+                    live = false;
+                    location.reload();  // 화면 다시 불러오기
+                }
+            }
+        }
+
+        return live;
+    }
+
+    //=========================================================================
+    // #28: Colliders
+    //=========================================================================
+    Colliders(fbxloader){  // #31
+
+        this.colliders = [];  // 충돌할 객체들
+        this.enemy = [];  // #35 상어
+
+        this.ship = [];  // #36
+
+        // // Cube #1
+        // let geometry = new THREE.BoxGeometry(300, 300, 300);
+        // let material = new THREE.MeshBasicMaterial({color:0xFF8000});
+        // const cube1 = new THREE.Mesh(geometry, material);
+        // cube1.position.set(0, 150, 1000);
+        // this.colliders.push(cube1);
+        // this.scene.add(cube1);
+
+        // // Cube #2
+        // geometry = new THREE.BoxGeometry(500, 300, 300);
+        // material = new THREE.MeshBasicMaterial({color:0xFFFF33});
+        // const cube2 = new THREE.Mesh(geometry, material);
+        // cube2.position.set(500, 150, 1000);
+        // this.colliders.push(cube2);
+        // this.scene.add(cube2);
+
+        fbxloader.load(`static/assets/snow_three.fbx`, function(object){
+            
+            game.scene.add(object);
+            object.position.y = -50;
+            object.position.z = -50;
+            object.scale.x = 0.01;
+            object.scale.y = 0.01;
+            object.scale.z = 0.01;
+        });
+
+        fbxloader.load(`static/assets/sea.fbx`, function(object){
+            game.scene.add(object);
+            object.position.y = -80;
+            object.scale.x = 1;
+            object.scale.y = 0.1;
+            object.scale.z = 1;
+        })
+
+        for(let x=0; x<10; x++){  // 나무와 돌의 생성빈도
+
+            if(x%2 === 0){
+                this.rock(fbxloader, true)
+                this.tree(fbxloader, true)
+                this.shark(fbxloader, true, false)
+            }
+            else{
+                this.rock(fbxloader, false)
+                this.tree(fbxloader, false)
+                this.shark(fbxloader, false, true)
+            }
+        }
+
+        for(let x=0; x<5; x++){  // 상어 생성빈도
+
+            if(x%2 === 0){
+                this.shark(fbxloader, true, true)
+            }
+            else{
+                this.shark(fbxloader, false, false)
+            }
+        }
+
+        fbxloader.load(`static/assets/ship.fbx`, function(object){
+
+            let posx = 0;
+            let posz = 0;
+            
+            // #36: 배의 위치 랜덤화
+            if(Math.floor(Math.random() * 10)%2 === 0){
+
+                posx = Math.floor(Math.random() * 10000)
+                posz = Math.floor(Math.random() * 10000)
+            }
+            else{
+                posx = Math.floor(Math.random() * -10000)
+                posz = Math.floor(Math.random() * -10000)
+            }
+
+            game.scene.add(object);
+
+            object.position.set(posx,-900,posz);
+            object.scale.x = 1;
+            object.scale.y = 1;
+            object.scale.z = 1;
+
+            object.traverse(function(child){
+                if(child.isMesh){
+                    game.ship.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        }) 
+    }
+
+    rock(fbxloader, t_f){
+        
+        fbxloader.load(`static/assets/rock.fbx`, function(object){
+
+            let posx = 0;
+            let posz = 0;
+            
+            // #34
+            if(t_f){
+
+                posx = Math.floor(Math.random() * 4000)
+                posz = Math.floor(Math.random() * 4000)
+            }
+            else{
+                posx = Math.floor(Math.random() * -4000)
+                posz = Math.floor(Math.random() * -4000)
+            }
+
+            game.scene.add(object);
+            object.position.set(posx,-150,posz);
+            object.scale.x = 0.3;
+            object.scale.y = 0.1;
+            object.scale.z = 0.3;
+            object.traverse(function(child){
+                if(child.isMesh){
+                    game.colliders.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        })
+    }
+
+    tree(fbxloader, t_f){
+
+        fbxloader.load(`static/assets/tree.fbx`, function(object){
+            
+            let posx = 0;
+            let posz = 0;
+            
+            // #34
+            if(t_f){
+
+                posx = Math.floor(Math.random() * 3000)
+                posz = Math.floor(Math.random() * 3000)
+            }
+            else{
+                posx = Math.floor(Math.random() * -3000)
+                posz = Math.floor(Math.random() * -3000)
+            }
+
+            game.scene.add(object);
+            object.position.x = posx;
+            object.position.y = -300;
+            object.position.z = posz;
+            object.scale.x = 0.2;
+            object.scale.y = 0.21;
+            object.scale.z = 0.2;
+            object.traverse(function(child){
+                if(child.isMesh){
+                    game.colliders.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        })
+    }
+
+    shark(fbxloader, t_f1, t_f2){
+        
+        fbxloader.load(`static/assets/shark.fbx`, function(object){
+
+            let posx = 0;
+            let posz = 0;
+            
+            // #34
+            if(t_f1 && t_f2){
+
+                posx = Math.floor(Math.random() * 8000)
+                posz = Math.floor(Math.random() * 8000)
+            }
+            else if(!t_f1 && t_f2){
+                posx = Math.floor(Math.random() * -8000)
+                posz = Math.floor(Math.random() * 8000)
+            }
+            else if(!t_f1 && !t_f2){
+                posx = Math.floor(Math.random() * 8000)
+                posz = Math.floor(Math.random() * -8000)
+            }
+            else{
+                posx = Math.floor(Math.random() * -8000)
+                posz = Math.floor(Math.random() * -8000)
+            }
+
+            game.scene.add(object);
+            object.position.set(posx,0,posz);
+            object.scale.x = 1;
+            object.scale.y = 1;
+            object.scale.z = 1;
+            
+            object.traverse(function(child){
+                if(child.isMesh){
+                    game.enemy.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        }) 
+    }
     //=========================================================================
     // #27: move
     //=========================================================================
     move(dt){
 
-        if(this.player.move.moveF>0){  // 이동중일 때
-            
-            const speed = (this.player.action=='Run') ? 500 : 200;
-            this.player.object.translateZ(dt*speed);
-        }
-        else{
+        //---------------------------------------------------------------------
+        // #28 colliding
+        //---------------------------------------------------------------------
+        const position = this.player.object.position.clone();
+        let direction = new THREE.Vector3();  // 플레이어의 방향
 
-            this.player.object.translateZ(-dt*100);
+        this.player.object.getWorldDirection(direction);
+
+        // raycaster -> 다른 객체와의 거리 감지
+        let raycast = new THREE.Raycaster(position, direction);
+        let T_F = false;  // 거리가 가까워지면 true
+        const colliders = this.colliders;
+
+        if(colliders !== undefined){
+            const distance = raycast.intersectObjects(colliders);
+
+            if(distance.length > 0){
+                if(distance[0].distance < 100){
+                    T_F = true;
+                }
+            }
+            // else{
+            //     console.log(distance);
+            // }
         }
+
+        //---------------------------------------------------------------------
+        //
+        //---------------------------------------------------------------------
+        if(!T_F){  // 거리가 가깝지 않을때만
+
+            if(this.player.move.moveF>0){  // 이동중일 때
+            
+                const speed = (this.player.action=='Run') ? 500 : 200;
+                this.player.object.translateZ(dt*speed);
+            }
+            else{
+    
+                this.player.object.translateZ(-dt*100);
+            }
+    
+        }
+
         this.player.object.rotateY(this.player.move.moveTurn*dt);  // 좌우이동
     }
 
