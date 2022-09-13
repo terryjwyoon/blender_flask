@@ -20,6 +20,9 @@ class Game{
         const game = this;  // 자기자신을 game에 넣어둠
     }
     
+    //=========================================================================
+    //
+    //=========================================================================
     aniInit(){
 
         this.scene = new THREE.Scene();
@@ -64,24 +67,15 @@ class Game{
         mesh.receiveShadow = true;
         this.scene.add(mesh);
 
-        // #26: 그리드 추가
-        // var grid = new THREE.GridHelper(5000, 50, 0x000000, 0x000000);  // (그리드 사이즈, 분할될 그리드 수, 그리드 선색상, 그리드 색상)
-        // grid.position.y = -30;  // 바닥과 같은 위치
-        // grid.material.transparent = true;
-        // grid.material.opacity = 0.3;
-        // this.scene.add(grid);
-
-        // this.camera.position.z = 50;  // 카메라의 깊이값 조절, 객체가 가까이 혹은 멀리 보이도록 함(x, y, z 다 조절 가능), 작을수록 가깝게 보임
-
         /* 
          * Load Blender FBX objects
          * - Texture files must be in the same location with the .fbx file
          */
-
         const fbxloader = new THREE.FBXLoader();
-        // const game = this;
-
+        
+        //---------------------------------------------------------------------
         // mai 불러오기
+        //---------------------------------------------------------------------
         fbxloader.load(`static/assets/${game.selPlayer}.fbx`, function(object){
             
             // @TY: #25
@@ -160,8 +154,6 @@ class Game{
         this.orbCtrl = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.orbCtrl.target.set(0,0,0);  // 카메라가 비추고 있는 부분 조절
         this.orbCtrl.update();
-
-        // this.animate();
     }
 
     //=========================================================================
@@ -189,6 +181,9 @@ class Game{
         });
     }
 
+    //=========================================================================
+    //
+    //=========================================================================
     set selAction(name) {
 
         const action = this.player.mixer.clipAction( this.animations[name] );
@@ -202,35 +197,32 @@ class Game{
         action.play();
     }
 
+    //=========================================================================
+    //
+    //=========================================================================
     changeAction() {
 
         game.selAction = document.getElementById("changeAction").value;
     }
 
-    // #32
+    //=========================================================================
+    //
+    //=========================================================================
     changePlayer() {
 
         game.selPlayer = document.getElementById("changePlayer").value;
         this.aniInit();
     }
+
     //=========================================================================
     //
     //=========================================================================
     animate() {
         
-        /* 애니메이션이 반복적으로 실행되도록 함 */
+        // 애니메이션이 반복적으로 실행되도록 함
         const game = this;
         const dt = this.clock.getDelta();  // 경과된 시간을 초단위로 가져옴
-        // requestAnimationFrame(function(){ game.animate(); });  // frame마다 반복적으로 시행
         
-        // cube 회전
-        this.cube.rotation.x += 0.01;
-        this.cube.rotation.y += 0.01;
-        this.cube.rotation.z += 0.01;
-
-        // cube 좌우 움직임
-        // this.cube.position.x += 0.01;
-
         if(this.player.mixer!==undefined){
             this.player.mixer.update(dt);
         }
@@ -244,8 +236,10 @@ class Game{
         }
 
         //---------------------------------------------------------------------
-        // #27
+        // 플레이어 동작
         //---------------------------------------------------------------------
+        
+        // 달리기 설정
         if(this.player.action=='Walk'){
 
             const walkTime = Date.now() - this.player.actionTime;
@@ -256,6 +250,10 @@ class Game{
 
         if(this.player.move !== undefined) this.move(dt);
 
+        //---------------------------------------------------------------------
+        // 카메라 설정
+        //---------------------------------------------------------------------
+        
         // 플레이어의 카메라는 장면을 비추기 위한 것이 아니고, 실제 카메라가 따라 다닐 수 있도록 카메라 위치값을 가지고 있음
         if(this.player.camera != undefined && this.player.camera.active != undefined){
 
@@ -268,6 +266,9 @@ class Game{
             this.camera.lookAt(cameraPosition);
         }
 
+        //---------------------------------------------------------------------
+        // 상어 설정
+        //---------------------------------------------------------------------
         // 상어 움직이기
         const enemy = game.enemy;
         for(let x=0; x<enemy.length; x++){
@@ -278,7 +279,7 @@ class Game{
         }
 
         //---------------------------------------------------------------------
-        //
+        //  게임종료동작
         //---------------------------------------------------------------------
         let live = this.rule();
 
@@ -287,9 +288,15 @@ class Game{
             requestAnimationFrame(function(){ game.animate(); });  // frame마다 반복적으로 시행
         }
 
+        //---------------------------------------------------------------------
+        //
+        //---------------------------------------------------------------------
         this.renderer.render(this.scene, this.camera);  // 실행된 내용을 렌더링해서 화면에 보여줌
     }
 
+    //=========================================================================
+    // 게임종료조건
+    //=========================================================================
     rule(){
         
         let live = true;
@@ -347,24 +354,19 @@ class Game{
         // this.colliders.push(cube1);
         // this.scene.add(cube1);
 
-        // // Cube #2
-        // geometry = new THREE.BoxGeometry(500, 300, 300);
-        // material = new THREE.MeshBasicMaterial({color:0xFFFF33});
-        // const cube2 = new THREE.Mesh(geometry, material);
-        // cube2.position.set(500, 150, 1000);
-        // this.colliders.push(cube2);
-        // this.scene.add(cube2);
-
-        fbxloader.load(`static/assets/snow_three.fbx`, function(object){
+        // fbxloader.load(`static/assets/snow_three.fbx`, function(object){
             
-            game.scene.add(object);
-            object.position.y = -50;
-            object.position.z = -50;
-            object.scale.x = 0.01;
-            object.scale.y = 0.01;
-            object.scale.z = 0.01;
-        });
+        //     game.scene.add(object);
+        //     object.position.y = -50;
+        //     object.position.z = -50;
+        //     object.scale.x = 0.01;
+        //     object.scale.y = 0.01;
+        //     object.scale.z = 0.01;
+        // });
 
+        //---------------------------------------------------------------------
+        // 바다 배경 load
+        //---------------------------------------------------------------------
         fbxloader.load(`static/assets/sea.fbx`, function(object){
             game.scene.add(object);
             object.position.y = -80;
@@ -373,6 +375,9 @@ class Game{
             object.scale.z = 1;
         })
 
+        //---------------------------------------------------------------------
+        // 생성빈도 설정
+        //---------------------------------------------------------------------
         for(let x=0; x<10; x++){  // 나무와 돌의 생성빈도
 
             if(x%2 === 0){
@@ -397,6 +402,9 @@ class Game{
             }
         }
 
+        //---------------------------------------------------------------------
+        // 배 불러오기
+        //---------------------------------------------------------------------
         fbxloader.load(`static/assets/ship.fbx`, function(object){
 
             let posx = 0;
@@ -430,6 +438,9 @@ class Game{
         }) 
     }
 
+    //=========================================================================
+    // 돌
+    //=========================================================================
     rock(fbxloader, t_f){
         
         fbxloader.load(`static/assets/rock.fbx`, function(object){
@@ -463,6 +474,9 @@ class Game{
         })
     }
 
+    //=========================================================================
+    // 나무
+    //=========================================================================
     tree(fbxloader, t_f){
 
         fbxloader.load(`static/assets/tree.fbx`, function(object){
@@ -498,6 +512,9 @@ class Game{
         })
     }
 
+    //=========================================================================
+    // 상어
+    //=========================================================================
     shark(fbxloader, t_f1, t_f2){
         
         fbxloader.load(`static/assets/shark.fbx`, function(object){
@@ -539,6 +556,7 @@ class Game{
             });
         }) 
     }
+
     //=========================================================================
     // #27: move
     //=========================================================================
@@ -571,7 +589,7 @@ class Game{
         }
 
         //---------------------------------------------------------------------
-        //
+        // 달리기 속도 설정
         //---------------------------------------------------------------------
         if(!T_F){  // 거리가 가깝지 않을때만
 
