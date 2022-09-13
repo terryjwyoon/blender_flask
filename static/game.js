@@ -393,7 +393,7 @@ class Game{
         //---------------------------------------------------------------------
         // 머핀 불러오기
         //---------------------------------------------------------------------
-        //this.HJ_muffin(fbxloader)
+        this.HJ_muffin(fbxloader)
 
         //---------------------------------------------------------------------
         // 배 불러오기
@@ -557,14 +557,14 @@ class Game{
         
         fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
 
-            let posx = 10000;
-            let posz = 10000;
+            let posx = 0;
+            let posz = 0;
             
             game.scene.add(object);
             object.position.set(posx,0,posz);
-            object.scale.x = 0.1;
-            object.scale.y = 0.1;
-            object.scale.z = 0.1;
+            object.scale.x = 1;
+            object.scale.y = 1;
+            object.scale.z = 1;
             
             object.traverse(function(child){
                 if(child.isMesh){
