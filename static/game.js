@@ -383,24 +383,17 @@ class Game{
             if(x%2 === 0){
                 this.rock(fbxloader, true)
                 this.tree(fbxloader, true)
-                this.shark(fbxloader, true, false)
             }
             else{
                 this.rock(fbxloader, false)
                 this.tree(fbxloader, false)
-                this.shark(fbxloader, false, true)
             }
         }
 
-        for(let x=0; x<5; x++){  // 상어 생성빈도
-
-            if(x%2 === 0){
-                this.shark(fbxloader, true, true)
-            }
-            else{
-                this.shark(fbxloader, false, false)
-            }
-        }
+        //---------------------------------------------------------------------
+        // 머핀 불러오기
+        //---------------------------------------------------------------------
+        //this.HJ_muffin(fbxloader)
 
         //---------------------------------------------------------------------
         // 배 불러오기
@@ -550,6 +543,31 @@ class Game{
             object.traverse(function(child){
                 if(child.isMesh){
                     game.enemy.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        }) 
+    }
+
+    //=========================================================================
+    // muffin
+    //=========================================================================
+    HJ_muffin(fbxloader){
+        
+        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
+
+            let posx = 10000;
+            let posz = 10000;
+            
+            game.scene.add(object);
+            object.position.set(posx,0,posz);
+            object.scale.x = 0.1;
+            object.scale.y = 0.1;
+            object.scale.z = 0.1;
+            
+            object.traverse(function(child){
+                if(child.isMesh){
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }
