@@ -67,6 +67,13 @@ class Game{
         mesh.receiveShadow = true;
         this.scene.add(mesh);
 
+        // 그리드 추가
+        var grid = new THREE.GridHelper(5000, 4, 0x000000, 0x000000);  // (그리드 사이즈, 분할될 그리드 수, 그리드 선색상, 그리드 색상)
+        grid.position.y = -30;  // 바닥과 같은 위치
+        grid.material.transparent = true;
+        grid.material.opacity = 0.3;
+        this.scene.add(grid);
+        
         /* 
          * Load Blender FBX objects
          * - Texture files must be in the same location with the .fbx file
@@ -367,68 +374,68 @@ class Game{
         //---------------------------------------------------------------------
         // 바다 배경 load
         //---------------------------------------------------------------------
-        fbxloader.load(`static/assets/sea.fbx`, function(object){
-            game.scene.add(object);
-            object.position.y = -80;
-            object.scale.x = 1;
-            object.scale.y = 0.1;
-            object.scale.z = 1;
-        })
+        // fbxloader.load(`static/assets/sea.fbx`, function(object){
+        //     game.scene.add(object);
+        //     object.position.y = -80;
+        //     object.scale.x = 1;
+        //     object.scale.y = 0.1;
+        //     object.scale.z = 1;
+        // })
 
         //---------------------------------------------------------------------
         // 생성빈도 설정
         //---------------------------------------------------------------------
-        for(let x=0; x<10; x++){  // 나무와 돌의 생성빈도
+        // for(let x=0; x<10; x++){  // 나무와 돌의 생성빈도
 
-            if(x%2 === 0){
-                this.rock(fbxloader, true)
-                this.tree(fbxloader, true)
-            }
-            else{
-                this.rock(fbxloader, false)
-                this.tree(fbxloader, false)
-            }
-        }
+        //     if(x%2 === 0){
+        //         this.rock(fbxloader, true)
+        //         this.tree(fbxloader, true)
+        //     }
+        //     else{
+        //         this.rock(fbxloader, false)
+        //         this.tree(fbxloader, false)
+        //     }
+        // }
 
         //---------------------------------------------------------------------
         // 머핀 불러오기
         //---------------------------------------------------------------------
-        this.HJ_muffin(fbxloader)
+        this.HJ_muffin(fbxloader);
 
         //---------------------------------------------------------------------
         // 배 불러오기
         //---------------------------------------------------------------------
-        fbxloader.load(`static/assets/ship.fbx`, function(object){
+        // fbxloader.load(`static/assets/ship.fbx`, function(object){
 
-            let posx = 0;
-            let posz = 0;
+        //     let posx = 0;
+        //     let posz = 0;
             
-            // #36: 배의 위치 랜덤화
-            if(Math.floor(Math.random() * 10)%2 === 0){
+        //     // #36: 배의 위치 랜덤화
+        //     if(Math.floor(Math.random() * 10)%2 === 0){
 
-                posx = Math.floor(Math.random() * 10000)
-                posz = Math.floor(Math.random() * 10000)
-            }
-            else{
-                posx = Math.floor(Math.random() * -10000)
-                posz = Math.floor(Math.random() * -10000)
-            }
+        //         posx = Math.floor(Math.random() * 10000)
+        //         posz = Math.floor(Math.random() * 10000)
+        //     }
+        //     else{
+        //         posx = Math.floor(Math.random() * -10000)
+        //         posz = Math.floor(Math.random() * -10000)
+        //     }
 
-            game.scene.add(object);
+        //     game.scene.add(object);
 
-            object.position.set(posx,-900,posz);
-            object.scale.x = 1;
-            object.scale.y = 1;
-            object.scale.z = 1;
+        //     object.position.set(posx,-900,posz);
+        //     object.scale.x = 1;
+        //     object.scale.y = 1;
+        //     object.scale.z = 1;
 
-            object.traverse(function(child){
-                if(child.isMesh){
-                    game.ship.push(child);
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                }
-            });
-        }) 
+        //     object.traverse(function(child){
+        //         if(child.isMesh){
+        //             game.ship.push(child);
+        //             child.castShadow = true;
+        //             child.receiveShadow = true;
+        //         }
+        //     });
+        // }) 
     }
 
     //=========================================================================
