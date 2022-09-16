@@ -348,7 +348,7 @@ class Game{
             const distance = raycast.intersectObjects(TY_interface);
 
             if(distance.length > 0){
-                if(distance[0].distance < 500){
+                if(distance[0].distance < 700){
                     pythonTest2()
                     live = false;
                     location.reload();  // 화면 다시 불러오기
@@ -578,7 +578,7 @@ class Game{
     //=========================================================================
     muffin(fbxloader){
         
-        fbxloader.load(`static/assets/shark.fbx`, function(object){
+        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
 
             let posx = 1000;
             let posz = 1000;
