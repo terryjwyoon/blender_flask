@@ -312,19 +312,19 @@ class Game{
         // raycaster -> 다른 객체와의 거리 감지
         let raycast = new THREE.Raycaster(position);
 
-        const enemy = this.enemy;
+        // const enemy = this.enemy;
 
-        if(enemy !== undefined){
-            const distance = raycast.intersectObjects(enemy);
+        // if(enemy !== undefined){
+        //     const distance = raycast.intersectObjects(enemy);
 
-            if(distance.length > 0){
-                if(distance[0].distance < 200){
-                    alert("You've got caught by a Shark!");
-                    live = false;
-                    location.reload();  // 화면 다시 불러오기
-                }
-            }
-        }
+        //     if(distance.length > 0){
+        //         if(distance[0].distance < 200){
+        //             alert("You've got caught by a Shark!");
+        //             live = false;
+        //             location.reload();  // 화면 다시 불러오기
+        //         }
+        //     }
+        // }
 
         const ship = this.ship;
 
@@ -334,6 +334,22 @@ class Game{
             if(distance.length > 0){
                 if(distance[0].distance < 200){
                     alert("You've successfully escaped!");
+                    live = false;
+                    location.reload();  // 화면 다시 불러오기
+                }
+            }
+        }
+        
+        // 머핀 충돌시 파이썬 함수 실행
+        const TY_interface = this.TY_interface;
+
+        if(TY_interface !== undefined){
+            
+            const distance = raycast.intersectObjects(TY_interface);
+
+            if(distance.length > 0){
+                if(distance[0].distance < 500){
+                    pythonTest2()
                     live = false;
                     location.reload();  // 화면 다시 불러오기
                 }
@@ -350,8 +366,8 @@ class Game{
 
         this.colliders = [];  // 충돌할 객체들
         this.enemy = [];  // #35 상어
-
         this.ship = [];  // #36
+        this.TY_interface = [];  // 파이썬 함수를 실행시킬 객체들
 
         // // Cube #1
         // let geometry = new THREE.BoxGeometry(300, 300, 300);
@@ -400,7 +416,7 @@ class Game{
         //---------------------------------------------------------------------
         // 머핀 불러오기
         //---------------------------------------------------------------------
-        this.HJ_muffin(fbxloader);
+        this.muffin(fbxloader);
 
         //---------------------------------------------------------------------
         // 배 불러오기
@@ -560,12 +576,12 @@ class Game{
     //=========================================================================
     // muffin
     //=========================================================================
-    HJ_muffin(fbxloader){
+    muffin(fbxloader){
         
-        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
+        fbxloader.load(`static/assets/shark.fbx`, function(object){
 
-            let posx = 0;
-            let posz = 0;
+            let posx = 1000;
+            let posz = 1000;
             
             game.scene.add(object);
             object.position.set(posx,0,posz);
@@ -575,6 +591,7 @@ class Game{
             
             object.traverse(function(child){
                 if(child.isMesh){
+                    game.TY_interface.push(child);
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }
