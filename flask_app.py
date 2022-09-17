@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import render_template
-from flask import request, jsonify
 
-from static.TY_lib.test1 import testFunction
+from static.TY_lib.test import testFunction
+from static.TY_lib.test import test1
 
 app = Flask(__name__)
 
@@ -18,10 +18,8 @@ def home():
 #------------------------------------------------------------------------------
 @app.route('/TY_test1', methods=['GET', 'POST'])
 def TY_test1():
-    if request.form.get('registration') == 'success':
-        return jsonify({'abc': 'successfuly registered'})
 
-    return jsonify({'abc': 'registration unsuccessful'})
+    return test1()
 
 @app.route('/TY_test2', methods=['GET', 'POST'])
 def TY_test2():
