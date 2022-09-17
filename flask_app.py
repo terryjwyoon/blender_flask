@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request, jsonify
 
-from static.python.test1 import testFunction
+from static.TY_lib.test1 import testFunction
 
 app = Flask(__name__)
 
