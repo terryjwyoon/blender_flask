@@ -349,7 +349,7 @@ class Game{
 
             if(distance.length > 0){
                 if(distance[0].distance < 700){
-                    pythonTest2()
+                    TY_Python_Movie()
                     live = false;
                     location.reload();  // 화면 다시 불러오기
                 }

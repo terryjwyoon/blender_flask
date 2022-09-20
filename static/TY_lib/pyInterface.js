@@ -1,3 +1,6 @@
+//=====================================================================
+//
+//=====================================================================
 function pythonTest () {
     
     $.ajax({
@@ -12,6 +15,9 @@ function pythonTest () {
     });
 } 
 
+//=====================================================================
+//
+//=====================================================================
 function pythonTest2 () {
     
     $.ajax({
@@ -31,4 +37,37 @@ function pythonTest2 () {
             }
         }
     });
+} 
+
+//=====================================================================
+//
+//=====================================================================
+function TY_Python_Movie () {
+    
+    $.ajax({
+
+        type: "GET",
+        url:"/Interface_Movie",
+
+        success:function(response){
+
+            if(response){
+
+                alert(response);
+            }
+            else{
+
+                alert("TY: FAIL");
+            }
+        },
+        failure:function(response){
+            alert("TY: FAILURE");
+        },
+        error:function(error){
+            
+            alert("TY: ERROR!");
+        }
+    });
+
+    alert("TY: Crawling Succeed");
 } 

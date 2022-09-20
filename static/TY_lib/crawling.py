@@ -32,10 +32,18 @@ def movie():
     soup = BeautifulSoup(data.text, 'html.parser')
     movies = soup.select('#old_content > table > tbody > tr')
 
+    movieList = []
+
     for movie in movies:
         a_tag = movie.select_one('td.title > div > a')
         if a_tag is not None:
-            print(a_tag.text)
+            # print(a_tag.text)
+            movieList.append(a_tag.text)
+    
+    value = str(movieList[0])
+    return value
+    # return "Hi"
+    
 
 #----------------------------------------------------------------------
 #
@@ -57,11 +65,29 @@ def song():
     else : 
         print(response.status_code)
 
+#----------------------------------------------------------------------
+#
+#----------------------------------------------------------------------
+def get_search_count(keyword):
+    
+    url = "https://www.google.com/search?q={}".format(keyword)
+    headers = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.62 Safari/537.36'}
+    res = requests.get(url, headers=headers)
+
+    soup = BeautifulSoup(res.text, 'lxml')
+    number = soup.select_one('#result-stats').text
+    print(number)
+    number = number[number.find('약',)+2:number.rfind('개')]
+    number = int(number.replace(',',''))
+    return {'keyword':keyword, 'number':number}
+
 #==============================================================================
 #
 #==============================================================================
 # if __name__ == "__main__":
 	
 #     # articles()
-#     # movie()
-#     song()
+#     movie()
+#     # song()
+#     # print(get_search_count("apple"))
+

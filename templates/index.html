@@ -1,25 +1,23 @@
 <html>
     <head>
         <title>Simple Game</title>
-         <!-- Flask -->
-         <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>  
-         <script>
-             function create () {
-                 $.ajax({
-                     type: "POST",
-                     url:"/TY_test1",
-                     dataType: 'json',
-                     data: {registration: "success", name: "xyz", email: "abc@gmail.com"},
-                     success:function(result){
-                         // console.log(result.abc);
-                         alert(result.abc);
-                     }
-                 });
-             } 
-         </script>
-    </head>
-
-    <body>
+        <!-- Flask -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>  
+        <script>
+            function create () {
+                $.ajax({
+                    type: "POST",
+                    url:"/TY_test1",
+                    dataType: 'json',
+                    data: {registration: "success", name: "xyz", email: "abc@gmail.com"},
+                    success:function(result){
+                        // console.log(result.abc);
+                        alert(result.abc);
+                    }
+                });
+            } 
+        </script>
+        <!-- Import JavaScript Libraries -->
         <script src="{{ url_for('static', filename='lib/three.min.js')}}"></script>
         <script src="{{ url_for('static', filename='lib/fflate.min.js')}}"></script><!-- Comp/Decompression library, needed to use FBXLoader-->
         <script src="{{ url_for('static', filename='lib/FBXLoader.js')}}"></script><!-- Library needed to load FBX files -->
@@ -27,31 +25,42 @@
         <script src="{{ url_for('static', filename='lib/GamePad.js')}}"></script>
         <script src="{{ url_for('static', filename='game.js') }}"></script>
         <script src="{{ url_for('static', filename='TY_lib/pyInterface.js') }}"></script>
-        
-        <input type="button" value="TEST" onclick="create()"/>
-        
-        <script>
-            // Load game.js when this document is loaded on a browser
-            document.addEventListener("DOMContentLoaded", function(){
-                const game = new Game();
-                window.game = game;
-            });
-        </script>
+    </head>
 
-        <!-- Character Selection Button -->
-        <select id="changePlayer" onchange="javascript:game.changePlayer()">
-            <option value="MaiAction">Select Character</option>
-            <option value="MaiAction">Mai</option>
-            <option value="RaccoonAction">Raccoon</option>
-        </select>
-
-        <!-- Action Selection Button -->
-        <select id="changeAction" onchange="javascript:game.changeAction()">
-            <option selected value="Idle">IDLE</option>
-            <option value="Kick">ATTACK</option>
-            <option value="Walk">WALK</option>
-            <option value="Run">RUN</option>
-            <option value="BackWard">BACK</option>
-        </select>
+    <body>        
+        <table border="1">
+            <tr>
+                <td>
+                    <input type="button" value="TEST" onclick="create()"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        // Load game.js when this document is loaded on a browser
+                        document.addEventListener("DOMContentLoaded", function(){
+                            const game = new Game();
+                            window.game = game;
+                        });
+                    </script>
+            
+                    <!-- Character Selection Button -->
+                    <select id="changePlayer" onchange="javascript:game.changePlayer()">
+                        <option value="MaiAction">Select Character</option>
+                        <option value="MaiAction">Mai</option>
+                        <option value="RaccoonAction">Raccoon</option>
+                    </select>
+            
+                    <!-- Action Selection Button -->
+                    <select id="changeAction" onchange="javascript:game.changeAction()">
+                        <option selected value="Idle">IDLE</option>
+                        <option value="Kick">ATTACK</option>
+                        <option value="Walk">WALK</option>
+                        <option value="Run">RUN</option>
+                        <option value="BackWard">BACK</option>
+                    </select>                                
+                </td>
+            </tr>
+        </table>        
     </body>
 </html>
