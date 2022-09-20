@@ -350,8 +350,9 @@ class Game{
             if(distance.length > 0){
                 if(distance[0].distance < 700){
                     TY_Python_Movie()
-                    live = false;
-                    location.reload();  // 화면 다시 불러오기
+                    // live = false;
+                    // location.reload();  // 화면 다시 불러오기
+                    this.player.object.translateZ(0);
                 }
             }
         }

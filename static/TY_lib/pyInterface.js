@@ -53,7 +53,8 @@ function TY_Python_Movie () {
 
             if(response){
 
-                alert(response);
+                // alert(response);
+                $('#TY_result').html(response);
             }
             else{
 
