@@ -29,7 +29,7 @@ class Game{
         this.scene.background = new THREE.Color("#D5D5D5");  // #26: 배경 색상
 
         // PerspectiveCamera(화각, 화면비율, near(얼마나 가까이서 렌더링), far(카메라에서 볼수있는 최대거리))
-        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 50000)
+        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.9, 50000)
         this.renderer = new THREE.WebGLRenderer();  // 색상이나 재질을 넣을 때 사용
         this.renderer.setSize(window.innerWidth, window.innerHeight);  // size of a canvas
         document.body.appendChild(this.renderer.domElement);  // index.html의 body부분에 추가, domElement(renderer를 화면에 그려주는 역할)
@@ -97,10 +97,11 @@ class Game{
             object.position.z = -50;
             
             // #32 크기조정
-            if(game.selPlayer === "MaiAction"){
-                object.scale.x = 0.02;
-                object.scale.y = 0.02;
-                object.scale.z = 0.02;    
+            // if(game.selPlayer === "MaiAction"){
+            if(game.selPlayer === "PinkRabbitAction"){
+                object.scale.x = 1;
+                object.scale.y = 1;
+                object.scale.z = 1;    
             }
             else{
                 object.scale.x = 30;
