@@ -43,24 +43,6 @@ def Interface_Movie():
 
     return ddd
 
-# @app.route("/TT", methods=["GET", "POST"]) # 접속 url
-# def index():
-# 		# page에서 두 개의 키워드 입력받음
-#     print(request.form.get('keyword1'))
-#     print(request.form.get('keyword2'))
-#     keyword1 = request.form.get('keyword1')
-#     keyword2 = request.form.get('keyword2')
-
-#     # 두 개의 키워드 모두 결과가 있을 때만 검색 결과 반환
-#     if keyword1 is not None and keyword2 is not None:
-#         data = {
-#             keyword1 : crawling.get_search_count(keyword1).get('number'),
-#             keyword2 : crawling.get_search_count(keyword2).get('number')
-#         }
-#         return render_template("index.html", data = data)
-#     else:
-#         return render_template("index.html")
-
 #==============================================================================
 #
 #==============================================================================

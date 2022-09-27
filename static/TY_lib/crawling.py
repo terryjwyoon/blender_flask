@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 import requests
+import random
 
 #==============================================================================
 #
@@ -40,7 +41,7 @@ def movie():
             # print(a_tag.text)
             movieList.append(a_tag.text)
     
-    value = str(movieList[0])
+    value = str(movieList[random.randrange(0, len(movieList))])
     return value
     # return "Hi"
     
