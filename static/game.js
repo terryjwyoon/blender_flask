@@ -313,19 +313,6 @@ class Game{
         // raycaster -> 다른 객체와의 거리 감지
         let raycast = new THREE.Raycaster(position);
 
-        // const enemy = this.enemy;
-
-        // if(enemy !== undefined){
-        //     const distance = raycast.intersectObjects(enemy);
-
-        //     if(distance.length > 0){
-        //         if(distance[0].distance < 200){
-        //             alert("You've got caught by a Shark!");
-        //             live = false;
-        //             location.reload();  // 화면 다시 불러오기
-        //         }
-        //     }
-        // }
 
         const ship = this.ship;
 
@@ -418,7 +405,10 @@ class Game{
         //---------------------------------------------------------------------
         // 머핀 불러오기
         //---------------------------------------------------------------------
-        this.muffin(fbxloader);
+        this.muffin(fbxloader, 1000, 500);
+        this.muffin(fbxloader, 1000, 1000);
+        this.muffin(fbxloader, 1000, 1500);
+        this.muffin(fbxloader, 1000, 2000);
 
         //---------------------------------------------------------------------
         // 배 불러오기
@@ -578,12 +568,14 @@ class Game{
     //=========================================================================
     // muffin
     //=========================================================================
-    muffin(fbxloader){
+    muffin(fbxloader, x, y){
         
         fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
 
-            let posx = 1000;
-            let posz = 1000;
+            //let posx = 1000;
+            //let posz = 1000;
+            let posx = x;
+            let posz = y;
             
             game.scene.add(object);
             object.position.set(posx,0,posz);
