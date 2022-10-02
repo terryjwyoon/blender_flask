@@ -331,7 +331,7 @@ class Game{
         //---------------------------------------------------------------------
         // 충돌시 파이썬 함수 실행
         //---------------------------------------------------------------------
-        const collidingDistance = 700;
+        const collidingDistance = 300;
 
         // 영화제목 가져오기
         const TY_Interface_Crawling_Movie = this.TY_Interface_Crawling_Movie;
