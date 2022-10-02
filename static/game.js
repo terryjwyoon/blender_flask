@@ -637,7 +637,7 @@ class Game{
 
     TY_Object_Article(fbxloader, x, y){
         
-        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
+        fbxloader.load(`static/assets/Sofa.fbx`, function(object){
 
             //let posx = 1000;
             //let posz = 1000;
@@ -662,7 +662,7 @@ class Game{
 
     TY_Object_Song(fbxloader, x, y){
         
-        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
+        fbxloader.load(`static/assets/Piano.fbx`, function(object){
 
             //let posx = 1000;
             //let posz = 1000;
