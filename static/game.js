@@ -652,7 +652,7 @@ class Game{
             
             object.traverse(function(child){
                 if(child.isMesh){
-                    game.TY_Interface_Crawling_Movie.push(child);
+                    game.TY_Interface_Crawling_Article.push(child);
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }
@@ -677,7 +677,7 @@ class Game{
             
             object.traverse(function(child){
                 if(child.isMesh){
-                    game.TY_Interface_Crawling_Movie.push(child);
+                    game.TY_Interface_Crawling_Song.push(child);
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }

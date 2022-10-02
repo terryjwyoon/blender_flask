@@ -68,16 +68,25 @@ def song():
 
     response = requests.get(url)
 
+    lyricsList = []
+
     if response.status_code == 200:
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         lyrics = soup.select_one('#main_pack > section.sc_new.sp_pmusic._au_music_collection._prs_mus_1st > div > div.group_music > ul > li:nth-child(1) > div.music_btn._lyrics_wrap > div > div.lyrics_txt._lyrics_txt')
         lines = lyrics.select('p')
         for line in lines:
-            print(line.get_text(), "\n")
+            # print(line.get_text(), "\n")
+            lyricsList.append(line.get_text())
+
 
     else : 
         print(response.status_code)
+
+    value = str(lyricsList[random.randrange(0, len(lyricsList))])
+    return value
+
+    # print(lyricsList[0])
 
 #----------------------------------------------------------------------
 #
@@ -102,6 +111,6 @@ def get_search_count(keyword):
 	
 #     articles()
 #     movie()
-#     # song()
+    # song()
 #     # print(get_search_count("apple"))
 

@@ -13,7 +13,7 @@ function TY_Python_Movie () {
             if(response){
 
                 // alert(response);
-                $('#TY_result').html(response);
+                $('#TY_result_movie').html(response);
             }
             else{
 
@@ -29,7 +29,7 @@ function TY_Python_Movie () {
         }
     });
 
-    alert("TY: Crawling Succeed");
+    alert("TY: Movie Crawling Succeed");
 } 
 
 //=====================================================================
@@ -40,14 +40,14 @@ function TY_Python_Article () {
     $.ajax({
 
         type: "GET",
-        url:"/Interface_Movie",
+        url:"/Interface_Article",
 
         success:function(response){
 
             if(response){
 
                 // alert(response);
-                $('#TY_result').html(response);
+                $('#TY_result_article').html(response);
             }
             else{
 
@@ -63,7 +63,7 @@ function TY_Python_Article () {
         }
     });
 
-    alert("TY: Crawling Succeed");
+    alert("TY: Article Crawling Succeed");
 } 
 
 //=====================================================================
@@ -74,14 +74,14 @@ function TY_Python_Song () {
     $.ajax({
 
         type: "GET",
-        url:"/Interface_Movie",
+        url:"/Interface_Song",
 
         success:function(response){
 
             if(response){
 
                 // alert(response);
-                $('#TY_result').html(response);
+                $('#TY_result_song').html(response);
             }
             else{
 
@@ -97,7 +97,7 @@ function TY_Python_Song () {
         }
     });
 
-    alert("TY: Crawling Succeed");
+    alert("TY: Song Crawling Succeed");
 } 
 
 //=====================================================================

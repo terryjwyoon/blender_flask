@@ -43,6 +43,20 @@ def Interface_Movie():
 
     return ddd
 
+@app.route('/Interface_Article', methods=['GET', 'POST'])
+def Interface_Article():
+    
+    ddd = crawling.articles()
+
+    return ddd
+
+@app.route('/Interface_Song', methods=['GET', 'POST'])
+def Interface_Song():
+    
+    ddd = crawling.song()
+
+    return ddd
+
 #==============================================================================
 #
 #==============================================================================
