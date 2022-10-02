@@ -328,15 +328,54 @@ class Game{
             }
         }
         
-        // 머핀 충돌시 파이썬 함수 실행
-        const TY_interface = this.TY_interface;
+        //---------------------------------------------------------------------
+        // 충돌시 파이썬 함수 실행
+        //---------------------------------------------------------------------
+        const collidingDistance = 700;
 
-        if(TY_interface !== undefined){
+        // 영화제목 가져오기
+        const TY_Interface_Crawling_Movie = this.TY_Interface_Crawling_Movie;
+
+        if(TY_Interface_Crawling_Movie !== undefined){
             
-            const distance = raycast.intersectObjects(TY_interface);
+            const distance = raycast.intersectObjects(TY_Interface_Crawling_Movie);
 
             if(distance.length > 0){
-                if(distance[0].distance < 700){
+                if(distance[0].distance < collidingDistance){
+                    TY_Python_Movie()
+                    // live = false;
+                    // location.reload();  // 화면 다시 불러오기
+                    this.player.object.translateZ(0);
+                }
+            }
+        }
+
+        // 기사제목 가져오기
+        const TY_Interface_Crawling_Article = this.TY_Interface_Crawling_Article;
+
+        if(TY_Interface_Crawling_Article !== undefined){
+            
+            const distance = raycast.intersectObjects(TY_Interface_Crawling_Article);
+
+            if(distance.length > 0){
+                if(distance[0].distance < collidingDistance){
+                    TY_Python_Movie()
+                    // live = false;
+                    // location.reload();  // 화면 다시 불러오기
+                    this.player.object.translateZ(0);
+                }
+            }
+        }
+
+        // 노래가사 가져오기
+        const TY_Interface_Crawling_Song = this.TY_Interface_Crawling_Song;
+
+        if(TY_Interface_Crawling_Song !== undefined){
+            
+            const distance = raycast.intersectObjects(TY_Interface_Crawling_Song);
+
+            if(distance.length > 0){
+                if(distance[0].distance < collidingDistance){
                     TY_Python_Movie()
                     // live = false;
                     // location.reload();  // 화면 다시 불러오기
@@ -356,7 +395,11 @@ class Game{
         this.colliders = [];  // 충돌할 객체들
         this.enemy = [];  // #35 상어
         this.ship = [];  // #36
-        this.TY_interface = [];  // 파이썬 함수를 실행시킬 객체들
+
+        // 파이썬 함수를 실행시킬 객체들
+        this.TY_Interface_Crawling_Movie = [];  
+        this.TY_Interface_Crawling_Article = [];  
+        this.TY_Interface_Crawling_Song = [];  
 
         // // Cube #1
         // let geometry = new THREE.BoxGeometry(300, 300, 300);
@@ -405,10 +448,9 @@ class Game{
         //---------------------------------------------------------------------
         // 머핀 불러오기
         //---------------------------------------------------------------------
-        this.muffin(fbxloader, 1000, 500);
-        this.muffin(fbxloader, 1000, 1000);
-        this.muffin(fbxloader, 1000, 1500);
-        this.muffin(fbxloader, 1000, 2000);
+        this.TY_Object_Movie(fbxloader, 1000, 500);
+        this.TY_Object_Article(fbxloader, 1000, 1000);
+        this.TY_Object_Song(fbxloader, 1000, 1500);
 
         //---------------------------------------------------------------------
         // 배 불러오기
@@ -566,9 +608,9 @@ class Game{
     }
 
     //=========================================================================
-    // muffin
+    // TY: Interfacing Objects
     //=========================================================================
-    muffin(fbxloader, x, y){
+    TY_Object_Movie(fbxloader, x, y){
         
         fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
 
@@ -585,7 +627,7 @@ class Game{
             
             object.traverse(function(child){
                 if(child.isMesh){
-                    game.TY_interface.push(child);
+                    game.TY_Interface_Crawling_Movie.push(child);
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }
@@ -593,6 +635,55 @@ class Game{
         }) 
     }
 
+    TY_Object_Article(fbxloader, x, y){
+        
+        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
+
+            //let posx = 1000;
+            //let posz = 1000;
+            let posx = x;
+            let posz = y;
+            
+            game.scene.add(object);
+            object.position.set(posx,0,posz);
+            object.scale.x = 1;
+            object.scale.y = 1;
+            object.scale.z = 1;
+            
+            object.traverse(function(child){
+                if(child.isMesh){
+                    game.TY_Interface_Crawling_Movie.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        }) 
+    }
+
+    TY_Object_Song(fbxloader, x, y){
+        
+        fbxloader.load(`static/assets/BearMuffin.fbx`, function(object){
+
+            //let posx = 1000;
+            //let posz = 1000;
+            let posx = x;
+            let posz = y;
+            
+            game.scene.add(object);
+            object.position.set(posx,0,posz);
+            object.scale.x = 1;
+            object.scale.y = 1;
+            object.scale.z = 1;
+            
+            object.traverse(function(child){
+                if(child.isMesh){
+                    game.TY_Interface_Crawling_Movie.push(child);
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        }) 
+    }
     //=========================================================================
     // #27: move
     //=========================================================================
