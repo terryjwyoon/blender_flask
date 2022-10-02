@@ -359,7 +359,7 @@ class Game{
 
             if(distance.length > 0){
                 if(distance[0].distance < collidingDistance){
-                    TY_Python_Movie()
+                    TY_Python_Article()
                     // live = false;
                     // location.reload();  // 화면 다시 불러오기
                     this.player.object.translateZ(0);
@@ -376,7 +376,7 @@ class Game{
 
             if(distance.length > 0){
                 if(distance[0].distance < collidingDistance){
-                    TY_Python_Movie()
+                    TY_Python_Song()
                     // live = false;
                     // location.reload();  // 화면 다시 불러오기
                     this.player.object.translateZ(0);
