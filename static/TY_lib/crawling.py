@@ -19,8 +19,21 @@ def articles():
     
     bsObject = BeautifulSoup(html, "html.parser")
     
+    articleList = []
+
     for link in bsObject.find_all('a'):
-        print(link.text.strip(), link.get('href'))
+        # print(link.text.strip(), link.get('href'))
+        # print(link.text.strip())
+        articleList.append(link.text.strip())
+
+    value = str(articleList[random.randrange(0, len(articleList))])
+
+    while((value == '') & (len(value)<5)):
+
+        value = str(articleList[random.randrange(0, len(articleList))])
+
+    # print(value)
+    return value
 
 #----------------------------------------------------------------------
 #
@@ -87,7 +100,7 @@ def get_search_count(keyword):
 #==============================================================================
 # if __name__ == "__main__":
 	
-#     # articles()
+#     articles()
 #     movie()
 #     # song()
 #     # print(get_search_count("apple"))
