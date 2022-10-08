@@ -435,10 +435,10 @@ class Game{
         //---------------------------------------------------------------------
         fbxloader.load(`static/assets/room2.fbx`, function(object){
             game.scene.add(object);
-            object.position.y = 0;
-            object.scale.x = 1;
-            object.scale.y = 1;
-            object.scale.z = 1;
+            object.position.set(1500,-10,0);  // x, y, z
+            object.scale.x = 4;
+            object.scale.y = 4;
+            object.scale.z = 4;
         })
 
         //---------------------------------------------------------------------
