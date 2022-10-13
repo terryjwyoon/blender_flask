@@ -435,10 +435,10 @@ class Game{
         //---------------------------------------------------------------------
         fbxloader.load(`static/assets/room2.fbx`, function(object){
             game.scene.add(object);
-            object.position.set(1500,-10,0);  // x, y, z
-            object.scale.x = 4;
-            object.scale.y = 4;
-            object.scale.z = 4;
+            object.position.set(2000,-10,0);  // x, y, z
+            object.scale.x = 3;
+            object.scale.y = 3;
+            object.scale.z = 3;
         })
 
         //---------------------------------------------------------------------
@@ -459,9 +459,9 @@ class Game{
         //---------------------------------------------------------------------
         // 머핀 불러오기
         //---------------------------------------------------------------------
-        this.TY_Object_Movie(fbxloader, 1000, 500);
-        this.TY_Object_Article(fbxloader, 1000, 1000);
-        this.TY_Object_Song(fbxloader, 1000, 1500);
+        this.TY_Object_Movie(fbxloader, 2000, -500);
+        this.TY_Object_Article(fbxloader, 2000, 0);
+        this.TY_Object_Song(fbxloader, 2000, 500);
 
         //---------------------------------------------------------------------
         // 배 불러오기
