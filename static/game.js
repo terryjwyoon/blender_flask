@@ -68,7 +68,7 @@ class Game{
         this.scene.add(mesh);
 
         // 그리드 추가
-        var grid = new THREE.GridHelper(5000, 4, 0x000000, 0x000000);  // (그리드 사이즈, 분할될 그리드 수, 그리드 선색상, 그리드 색상)
+        var grid = new THREE.GridHelper(8000, 4, 0x000000, 0x000000);  // (그리드 사이즈, 분할될 그리드 수, 그리드 선색상, 그리드 색상)
         grid.position.y = -30;  // 바닥과 같은 위치
         grid.material.transparent = true;
         grid.material.opacity = 0.3;
